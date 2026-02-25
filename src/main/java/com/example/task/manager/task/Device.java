@@ -17,4 +17,11 @@ public class Device {
     private String name;
     @Enumerated(EnumType.STRING)
     private TypeOfDevice typeOfDevice;
+
+    public  DeviceDTO toDeviceDTO(){
+        return DeviceDTO.builder()
+                .name(this.name)
+                .typeOfDevice(this.typeOfDevice)
+                .build();
+    }
 }

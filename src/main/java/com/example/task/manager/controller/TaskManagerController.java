@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 @RestController(value = "/manager/task")
@@ -53,9 +55,8 @@ public class TaskManagerController {
     }
 
     @PostMapping(value = "/launch")
-    public ResponseEntity<ResponseMessage> startTasks(@RequestBody ListOfTaskToRun listOfTaskToRun) {
+    public ResponseEntity<ResponseMessage> startTasks(@RequestBody ListOfTaskToRun listOfTaskToRun) throws IOException, URISyntaxException, InterruptedException {
         taskManager.runListOfTasks(listOfTaskToRun);
-
         return new ResponseEntity<>(new ResponseMessage("Tasks are processing check status."), HttpStatus.ACCEPTED);
     }
 }

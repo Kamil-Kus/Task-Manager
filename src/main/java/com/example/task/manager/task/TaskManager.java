@@ -5,8 +5,8 @@ import com.example.task.manager.http.client.HttpRequestSender;
 import com.example.task.manager.http.client.models.Role;
 import com.example.task.manager.http.client.models.Status;
 import com.example.task.manager.http.client.models.StatusDevice;
-import com.example.task.manager.http.client.models.User;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -68,8 +68,6 @@ public class TaskManager {
         if (user.getStatus() != Status.ACTIVE) {
             return false;
         }
-        // UPDATE,DISCOVERY,GET_INFO,BACKUP
-        //  ADMIN,READER,EXECUTOR
         if (user.getRole() == Role.ADMIN) {
             return true;
         }
@@ -79,8 +77,12 @@ public class TaskManager {
         return user.getRole() == Role.EXECUTOR && (type == TypeOfTask.BACKUP || type == TypeOfTask.UPDATE);
     }
 
-    private void startTask(Long id) {
-        //tutaj odpalić zapytanie do exektyuroa
+    private void startTask(Task task) {
+        try {
+            httpRequestSender.sendTaskToExecutor(task);
+        } catch (Exception exception) {
+            log.error("Catch error {}", exception.getMessage());
+        }
     }
 
     public void runListOfTasks(ListOfTaskToRun listOfTaskToRun) {
@@ -90,6 +92,8 @@ public class TaskManager {
         }
         for (Task task : taskList) {
             validateTask(task);
+            log.info("Task {} validated", task);
         }
+        taskList.forEach(this::startTask);
     }
 }

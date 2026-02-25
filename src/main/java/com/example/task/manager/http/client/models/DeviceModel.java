@@ -1,15 +1,13 @@
 package com.example.task.manager.http.client.models;
 
 import com.example.task.manager.task.TypeOfDevice;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class DeviceModel {
     private Long id;
     private String name;

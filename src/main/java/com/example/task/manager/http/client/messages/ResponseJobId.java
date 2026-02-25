@@ -3,11 +3,9 @@ package com.example.task.manager.http.client.messages;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Setter
 @Getter
-public class ResponseDevicesMessages {
+public class ResponseJobId {
     private String message;
-    private List<DeviceModelDTO> deviceList;
+    private String jobId;
 }
